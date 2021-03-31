@@ -63,9 +63,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Calc.cs" />
+    <Compile Include="Assets\Dog.cs" />
     <Compile Include="Assets\HelloClass.cs" />
     <Compile Include="Assets\HelloCsharp.cs" />
     <Compile Include="Assets\jumper.cs" />
+    <Compile Include="Assets\Mover.cs" />
+    <Compile Include="Assets\setPosition.cs" />
+    <Compile Include="Assets\SetRotation.cs" />
+    <Compile Include="Assets\Spawner.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/asky1/Desktop/myunity/HelloCsharp/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
