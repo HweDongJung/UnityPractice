@@ -1,5 +1,5 @@
 sceneSetups:
-- path: "Assets/Scenes/\uC0C1\uC18D.unity"
+- path: Assets/Scenes/Override.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
