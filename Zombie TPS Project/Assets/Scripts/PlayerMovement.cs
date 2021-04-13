@@ -25,26 +25,44 @@ public class PlayerMovement : MonoBehaviour
     
     private void Start()
     {
-
+        playerInput.GetComponent<PlayerInput>();
+        animator = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
+        followCam = Camera.main;
     }
 
     private void FixedUpdate()
     {
         if (currentSpeed > 0.2f || playerInput.fire) Rotate();
 
-        Move(playerInput.moveInput);
+        Move(playerInput.moveInput); // 누른대로 이동
         
-        if (playerInput.jump) Jump();
+        if (playerInput.jump) Jump(); // 점프 기능 
     }
 
     private void Update()
     {
-        
+        UpdateAnimation(playerInput.moveInput);
+
+
     }
 
     public void Move(Vector2 moveInput)
     {
+        var targetSpeed = speed * moveInput.magnitude;
+        var moveDirection = Vector3.Normalize(transform.forward * moveInput.y + transform.right * moveInput.x);
 
+        var smoothTime = characterController.isGrounded ? speedSmoothTime : speedSmoothTime / airControlPercent;
+
+        targetSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, smoothTime);
+
+        currentVelocityY += Time.deltaTime * Physics.gravity.y;
+
+        var velocity = moveDirection * targetSpeed + Vector3.up * currentVelocityY;
+
+        characterController.Move(velocity * Time.deltaTime);
+
+        if (characterController.isGrounded) currentVelocityY = 0;
     }
 
     public void Rotate()
