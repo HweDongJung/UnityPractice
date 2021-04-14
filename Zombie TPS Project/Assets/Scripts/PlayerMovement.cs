@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void Start()
     {
-        playerInput.GetComponent<PlayerInput>();
+        playerInput = GetComponent<PlayerInput>();
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         followCam = Camera.main;
@@ -67,16 +67,25 @@ public class PlayerMovement : MonoBehaviour
 
     public void Rotate()
     {
+        var targetRotation = followCam.transform.eulerAngles.y;
 
+        targetRotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
+
+        transform.eulerAngles = Vector3.up * targetRotation;
     }
 
     public void Jump()
     {
-        
+        if (!characterController.isGrounded) return;
+        currentVelocityY = jumpVelocity;
+
     }
 
     private void UpdateAnimation(Vector2 moveInput)
     {
+        var animationSpeedPercent = currentSpeed / speed;
+        animator.SetFloat("Vertical Move", moveInput.y * animationSpeedPercent, 0.05f, Time.deltaTime);
+        animator.SetFloat("Horizontal Move", moveInput.x * animationSpeedPercent, 0.05f, Time.deltaTime);
 
     }
 }
